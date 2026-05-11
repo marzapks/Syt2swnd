@@ -179,6 +179,37 @@ button.heartbeatBtn{
   }
 }
 
+
+/* === HEARTBEAT ENGINE V2 VISUAL REPAIR === */
+.hbV2Modal.open{display:flex!important}
+.hbV2Modal{
+  position:fixed!important; inset:0!important; z-index:2147483000!important;
+  align-items:center!important; justify-content:center!important;
+  background:rgba(0,0,0,.86)!important; backdrop-filter:blur(14px)!important; padding:16px!important;
+}
+.hbV2Window{
+  width:min(1180px,97vw)!important; max-height:94vh!important; overflow:auto!important;
+  border:1px solid rgba(255,202,69,.78)!important; border-radius:24px!important;
+  box-shadow:0 0 84px rgba(255,202,69,.20),0 0 0 1px rgba(77,255,115,.10) inset!important;
+}
+.hbV2Header{position:sticky;top:0;z-index:3}
+.hbV2Sub{color:#b5ffbd;margin-top:5px;letter-spacing:.08em}
+.hbV2Body{grid-template-columns:minmax(520px,1.15fr) minmax(300px,.85fr)!important;align-items:start}
+.hbV2Canvas{height:clamp(390px,58vh,560px)!important}
+.hbV2Strip{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;color:#b5ffbd;font-size:11px;line-height:1.4
+}
+.hbV2Strip span{border:1px solid rgba(77,255,115,.18);background:rgba(77,255,115,.06);border-radius:999px;padding:5px 8px}
+.hbV2ControlColumn .note{margin-top:12px}
+.hbV2Actions button{min-height:42px}
+#heartbeatApplyPadBtn{
+  box-shadow:0 0 22px rgba(255,202,69,.28),inset 0 0 18px rgba(255,202,69,.12)!important;
+}
+@media (max-width:900px){
+  .hbV2Body{grid-template-columns:1fr!important}
+  .hbV2Canvas{height:390px!important}
+}
+
 </style>
 </head>
 <body>
@@ -187,14 +218,14 @@ button.heartbeatBtn{
   <div class="homeShell">
     <div class="homeBrand">
       <h1 class="homeTitle">syt2swnd</h1>
-      <div class="homeSub">neon media-to-sound design application</div>
+      <div class="homeSub">media-to-sound design application</div>
     </div>
     <div class="homeCenter">
       <div class="homePulseWrap">
         <canvas id="homePulseCanvas" width="720" height="260" aria-label="golden heart rate monitor display"></canvas>
       </div>
       <div class="homeText">
-        The home monitor now renders a centered, real-time ECG animation built from Mario’s uploaded heartbeat image, side-cropped only at matching rhythm points so the loop stays continuous.
+        
       </div>
       <button id="launchBtn" class="launchBtn primary">Launch</button>
     </div>
@@ -1612,6 +1643,424 @@ renderSound = function(){
   log(`Rendered ${mode} audio buffer · ${dur}s · ${currentBuffer.numberOfChannels}ch.`);
 };
 $('renderBtn')?.addEventListener('click', renderSound);
+
+
+/* === HEARTBEAT ENGINE V2 — direct modal/window repair ===
+   This capture-level handler bypasses older patched heartbeat listeners and
+   guarantees the Heartbeat button opens the full editor window with controls,
+   visual trace display, waveform, crop handles, and pad-apply behavior.
+*/
+(function installHeartbeatEngineV2(){
+  const hbV2 = {
+    installed:false,
+    dragging:null
+  };
+
+  function safeLog(msg){
+    try { log(msg); }
+    catch(e){ console.log('[syt2swnd]', msg); }
+  }
+
+  function esc(s){
+    return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function ensureHeartbeatWindow(){
+    let modal = $('heartbeatModal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.id = 'heartbeatModal';
+      modal.className = 'heartModal';
+      document.body.appendChild(modal);
+    }
+    modal.className = 'heartModal hbV2Modal';
+    modal.setAttribute('aria-label','Heartbeat Engine window');
+
+    modal.innerHTML = `
+      <div class="heartWindow hbV2Window">
+        <div class="heartHeader hbV2Header">
+          <div>
+            <h2>♥ Heartbeat Engine</h2>
+            <div class="tiny hbV2Sub">Focused heartbeat rendering · visible trace peaks · loop crop editor · pad assignment</div>
+          </div>
+          <div class="actions">
+            <button id="heartbeatRenderBtn" class="primary" type="button">Render heartbeat</button>
+            <button id="heartbeatPlayBtn" type="button">Play loop</button>
+            <button id="heartbeatCloseBtn" type="button">Close</button>
+          </div>
+        </div>
+
+        <div class="heartBody hbV2Body">
+          <div class="hbV2VisualColumn">
+            <canvas id="heartbeatCanvas" class="heartCanvas hbV2Canvas" width="1040" height="560"></canvas>
+            <div class="hbV2Strip">
+              <span>Top: analyzed heart-rate image + traced ECG path + detected peaks</span>
+              <span>Bottom: generated heartbeat audio form</span>
+              <span>Drag gold handles to crop the loop</span>
+            </div>
+          </div>
+
+          <div class="hbV2ControlColumn">
+            <div class="heartReadout" id="heartbeatInfo">
+              Upload a clear heart-rate / ECG image, then press Heartbeat. This window will force ultra-detail tracing and build a clean lub-dub heartbeat from the detected peaks and crop region.
+            </div>
+
+            <div class="heartControls hbV2Controls">
+              <div class="row"><label>heartbeat body</label><output id="hbBodyOut">82</output><input id="hbBody" min="0" max="100" value="82" type="range"></div>
+              <div class="row"><label>attack click</label><output id="hbClickOut">34</output><input id="hbClick" min="0" max="100" value="34" type="range"></div>
+              <div class="row"><label>thump depth</label><output id="hbDepthOut">78</output><input id="hbDepth" min="0" max="100" value="78" type="range"></div>
+              <div class="row"><label>tightness</label><output id="hbTightOut">64</output><input id="hbTight" min="0" max="100" value="64" type="range"></div>
+              <div class="row"><label>trace focus</label><output id="hbFocusOut">90</output><input id="hbFocus" min="0" max="100" value="90" type="range"></div>
+              <div class="row"><label>heartbeat level</label><output id="hbLevelOut">86</output><input id="hbLevel" min="0" max="100" value="86" type="range"></div>
+            </div>
+
+            <div class="heartActions hbV2Actions">
+              <button id="heartbeatApplyPadBtn" class="primary" type="button">Apply heartbeat loop to selected pad</button>
+              <button id="heartbeatExportBtn" type="button">Export heartbeat WAV</button>
+              <button id="heartbeatResetCropBtn" type="button">Reset crop</button>
+            </div>
+
+            <div class="note hbV2Note">
+              The crop handles affect both the visual trace region and the generated heartbeat loop length. The applied pad is automatically marked as a looping heartbeat pad.
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    attachHeartbeatWindowEvents();
+    updateHeartbeatOutputsV2();
+    drawHeartbeatEditorV2();
+    setHeartbeatInfoV2();
+    return modal;
+  }
+
+  function hbNum(id, fallback=0){
+    const el = $(id);
+    return el ? Number(el.value) : fallback;
+  }
+
+  function updateHeartbeatOutputsV2(){
+    [['hbBody','82'],['hbClick','34'],['hbDepth','78'],['hbTight','64'],['hbFocus','90'],['hbLevel','86']].forEach(([id, fallback])=>{
+      const input = $(id), out = $(id+'Out');
+      if(input && out) out.textContent = input.value || fallback;
+    });
+  }
+
+  function attachHeartbeatWindowEvents(){
+    $('heartbeatCloseBtn')?.addEventListener('click', ()=> $('heartbeatModal')?.classList.remove('open'));
+    $('heartbeatRenderBtn')?.addEventListener('click', ()=> renderHeartbeatV2(false));
+    $('heartbeatPlayBtn')?.addEventListener('click', ()=> renderHeartbeatV2(true));
+    $('heartbeatExportBtn')?.addEventListener('click', ()=>{
+      if(!heartbeatBuffer) renderHeartbeatV2(false);
+      if(heartbeatBuffer) exportWav(heartbeatBuffer, `syt2swnd_heartbeat_${currentFileName || 'trace'}`);
+    });
+    $('heartbeatApplyPadBtn')?.addEventListener('click', applyHeartbeatToSelectedPadV2);
+    $('heartbeatResetCropBtn')?.addEventListener('click', ()=>{
+      heartbeatState.loopStart = 0;
+      heartbeatState.loopEnd = 1;
+      renderHeartbeatV2(false);
+    });
+
+    ['hbBody','hbClick','hbDepth','hbTight','hbFocus','hbLevel'].forEach(id=>{
+      $(id)?.addEventListener('input', ()=>{
+        updateHeartbeatOutputsV2();
+        if($('heartbeatModal')?.classList.contains('open')) renderHeartbeatV2(false);
+      });
+    });
+
+    const c = $('heartbeatCanvas');
+    if(c){
+      c.addEventListener('pointerdown', e=>{
+        const r = c.getBoundingClientRect();
+        const x = clamp((e.clientX - r.left) / Math.max(1, r.width), 0, 1);
+        const ds = Math.abs(x - heartbeatState.loopStart);
+        const de = Math.abs(x - heartbeatState.loopEnd);
+        hbV2.dragging = ds < de ? 'start' : 'end';
+        try { c.setPointerCapture(e.pointerId); } catch(_){}
+      });
+      c.addEventListener('pointermove', e=>{
+        if(!hbV2.dragging) return;
+        const r = c.getBoundingClientRect();
+        const x = clamp((e.clientX - r.left) / Math.max(1, r.width), 0, 1);
+        if(hbV2.dragging === 'start') heartbeatState.loopStart = clamp(x, 0, heartbeatState.loopEnd - .035);
+        else heartbeatState.loopEnd = clamp(x, heartbeatState.loopStart + .035, 1);
+        renderHeartbeatV2(false);
+      });
+      ['pointerup','pointercancel','pointerleave'].forEach(evt=>c.addEventListener(evt, ()=>{ hbV2.dragging = null; }));
+    }
+  }
+
+  function setHeartbeatInfoV2(){
+    const info = $('heartbeatInfo');
+    if(!info) return;
+    const a = currentAnalysis;
+    if(!a){
+      info.innerHTML = `<b>Waiting for heart-rate image</b><br>Upload a clear ECG / heart-rate monitor image first, then press the illuminated Heartbeat button again. The window is ready; it just needs image data to trace.`;
+      return;
+    }
+    const peaks = Array.isArray(a.peaks) ? a.peaks.length : 0;
+    const startPct = Math.round((heartbeatState.loopStart || 0) * 100);
+    const endPct = Math.round((heartbeatState.loopEnd || 1) * 100);
+    const bpm = heartbeatState.bpm || estimateHeartbeatBpm(a, heartbeatState.loopStart || 0, heartbeatState.loopEnd || 1);
+    const lineConfidence = Math.round((a.lineConfidence || 0) * 100);
+    info.innerHTML = `<b>Heartbeat analysis active</b><br>
+      Source: ${esc(a.fileName || currentFileName || 'uploaded media')}<br>
+      Detail mode: <b>${esc($('detailLevel')?.value || 'ultra')}</b> · line focus: <b>${esc($('lineMode')?.value || 'green')}</b><br>
+      Detected visual peaks: <b>${peaks}</b> · trace confidence: <b>${lineConfidence}%</b><br>
+      Estimated rhythm from visible spacing: <b>${bpm} BPM</b><br>
+      Loop crop: <b>${startPct}% → ${endPct}%</b><br>
+      Rendered loop: <b>${heartbeatBuffer ? heartbeatBuffer.duration.toFixed(2) + ' sec' : 'not rendered yet'}</b><br><br>
+      The heartbeat sound is built from the visible trace peaks, peak spacing, crop region, and contour pressure layer — not a random soundscape.`;
+  }
+
+  function drawHeartbeatEditorV2(){
+    const c = $('heartbeatCanvas');
+    if(!c) return;
+    const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const rect = c.getBoundingClientRect();
+    const cw = Math.max(720, Math.round((rect.width || 1040) * ratio));
+    const ch = Math.max(420, Math.round((rect.height || 560) * ratio));
+    if(c.width !== cw || c.height !== ch){ c.width = cw; c.height = ch; }
+
+    const ctx = c.getContext('2d'), w = c.width, h = c.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,w,h);
+
+    // Monitor grid
+    ctx.save();
+    ctx.globalAlpha = .18;
+    ctx.strokeStyle = 'rgba(77,255,115,.58)';
+    ctx.lineWidth = Math.max(1, w/950);
+    const grid = Math.max(26, Math.round(w/34));
+    for(let x=0; x<=w; x+=grid){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for(let y=0; y<=h; y+=grid){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+    ctx.restore();
+
+    const a = currentAnalysis;
+    const topH = Math.floor(h * .56);
+    const bottomY = topH + Math.floor(h*.055);
+    const bottomH = h - bottomY - Math.floor(h*.055);
+
+    ctx.fillStyle = 'rgba(77,255,115,.92)';
+    ctx.font = `${Math.max(13, Math.round(w/64))}px Courier New`;
+    ctx.fillText('HEARTBEAT TRACE EDITOR', Math.round(w*.025), Math.round(h*.055));
+
+    if(!a){
+      ctx.fillStyle = 'rgba(255,202,69,.95)';
+      ctx.font = `${Math.max(19, Math.round(w/38))}px Courier New`;
+      ctx.fillText('Upload a heart-rate image first.', Math.round(w*.07), Math.round(h*.28));
+      ctx.font = `${Math.max(13, Math.round(w/70))}px Courier New`;
+      ctx.fillStyle = 'rgba(215,255,215,.8)';
+      ctx.fillText('Then press ♥ Heartbeat to force ultra-detail tracing and build the heartbeat window.', Math.round(w*.07), Math.round(h*.36));
+      drawCropHandlesV2(ctx,w,h);
+      return;
+    }
+
+    // Draw original analyzed image on top, if available.
+    try{
+      const imgC = document.createElement('canvas');
+      imgC.width = a.width;
+      imgC.height = a.height;
+      imgC.getContext('2d').putImageData(a.firstFrame, 0, 0);
+      const scale = Math.min((w*.96)/a.width, (topH*.80)/a.height);
+      const dw = a.width * scale, dh = a.height * scale;
+      const dx = (w - dw) / 2, dy = Math.round(h*.075) + (topH*.82 - dh)/2;
+      ctx.drawImage(imgC, dx, dy, dw, dh);
+
+      // Trace overlay
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,202,69,.98)';
+      ctx.lineWidth = Math.max(2, w/430);
+      ctx.shadowColor = 'rgba(255,202,69,.75)';
+      ctx.shadowBlur = Math.max(8, w/70);
+      ctx.beginPath();
+      for(let x=0; x<a.width; x++){
+        const px = dx + (x / Math.max(1,a.width-1)) * dw;
+        const py = dy + (a.trace[x] / Math.max(1,a.height-1)) * dh;
+        if(x === 0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Peak lines
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,84,84,.85)';
+      ctx.lineWidth = Math.max(1, w/850);
+      (a.peaks || []).forEach(pk=>{
+        const px = dx + (pk.x / Math.max(1,a.width-1)) * dw;
+        ctx.beginPath(); ctx.moveTo(px, dy); ctx.lineTo(px, dy+dh); ctx.stroke();
+      });
+      ctx.restore();
+
+      ctx.fillStyle = 'rgba(77,255,115,.86)';
+      ctx.font = `${Math.max(11, Math.round(w/84))}px Courier New`;
+      ctx.fillText('analyzed image + traced visible heart-rate path', Math.round(w*.025), topH - 12);
+    }catch(err){
+      ctx.fillStyle = 'rgba(255,202,69,.9)';
+      ctx.fillText('Trace display unavailable, but heartbeat data is still active.', Math.round(w*.07), Math.round(h*.26));
+    }
+
+    // Draw generated waveform lower half.
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,202,69,.96)';
+    ctx.lineWidth = Math.max(2, w/500);
+    ctx.shadowColor = 'rgba(255,202,69,.55)';
+    ctx.shadowBlur = Math.max(8, w/90);
+    ctx.beginPath();
+    if(heartbeatBuffer){
+      const data = heartbeatBuffer.getChannelData(0);
+      for(let x=0; x<w; x++){
+        const idx = Math.floor((x / Math.max(1,w-1)) * (data.length - 1));
+        const y = bottomY + bottomH/2 - data[idx] * (bottomH * .46);
+        if(x === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+    }else{
+      ctx.moveTo(0, bottomY + bottomH/2);
+      ctx.lineTo(w, bottomY + bottomH/2);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(77,255,115,.86)';
+    ctx.font = `${Math.max(11, Math.round(w/84))}px Courier New`;
+    ctx.fillText('generated heartbeat audio form', Math.round(w*.025), bottomY + 18);
+
+    drawCropHandlesV2(ctx,w,h);
+  }
+
+  function drawCropHandlesV2(ctx,w,h){
+    const sx = (heartbeatState.loopStart || 0) * w;
+    const ex = (heartbeatState.loopEnd ?? 1) * w;
+    ctx.save();
+    ctx.fillStyle = 'rgba(255,202,69,.10)';
+    ctx.fillRect(sx, 0, Math.max(2, ex - sx), h);
+    ctx.fillStyle = 'rgba(0,0,0,.44)';
+    if(sx > 0) ctx.fillRect(0, 0, sx, h);
+    if(ex < w) ctx.fillRect(ex, 0, w - ex, h);
+
+    [sx, ex].forEach((x, i)=>{
+      ctx.strokeStyle = 'rgba(255,202,69,.98)';
+      ctx.lineWidth = Math.max(3, w/360);
+      ctx.shadowColor = 'rgba(255,202,69,.75)';
+      ctx.shadowBlur = Math.max(8, w/90);
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,202,69,.98)';
+      const bw = Math.max(24, w/36), bh = Math.max(28, h/12);
+      ctx.fillRect(x - bw/2, h*.48 - bh/2, bw, bh);
+      ctx.fillStyle = '#000';
+      ctx.font = `${Math.max(13, Math.round(w/62))}px Courier New`;
+      ctx.fillText(i ? 'END' : 'START', x - bw*.40, h*.48 + 5);
+    });
+    ctx.restore();
+  }
+
+  function renderHeartbeatV2(playAfter=false){
+    if(!currentAnalysis){
+      heartbeatBuffer = null;
+      drawHeartbeatEditorV2();
+      setHeartbeatInfoV2();
+      safeLog('Heartbeat Engine opened. Upload a heart-rate image before rendering.');
+      return;
+    }
+    try{
+      heartbeatState.loopStart = clamp(heartbeatState.loopStart ?? 0, 0, .96);
+      heartbeatState.loopEnd = clamp(heartbeatState.loopEnd ?? 1, heartbeatState.loopStart + .04, 1);
+      heartbeatBuffer = makeHeartbeatBufferFromAnalysis(currentAnalysis, heartbeatState.loopStart, heartbeatState.loopEnd);
+      currentBuffer = cloneBuffer(heartbeatBuffer);
+      drawRenderedWave(currentBuffer);
+      drawHeartbeatEditorV2();
+      setHeartbeatInfoV2();
+      safeLog(`Heartbeat Engine rendered focused loop · ${heartbeatState.bpm || estimateHeartbeatBpm(currentAnalysis)} BPM estimate · ${heartbeatBuffer.duration.toFixed(2)} sec.`);
+      if(playAfter) playBuffer(heartbeatBuffer, {loop:true, loopStart:0, loopEnd:heartbeatBuffer.duration});
+    }catch(err){
+      console.error(err);
+      safeLog(`Heartbeat render failed: ${err.message}`);
+      drawHeartbeatEditorV2();
+      setHeartbeatInfoV2();
+    }
+  }
+
+  async function openHeartbeatEngineV2(){
+    const modal = ensureHeartbeatWindow();
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+
+    heartbeatState.loopStart = heartbeatState.loopStart ?? 0;
+    heartbeatState.loopEnd = heartbeatState.loopEnd ?? 1;
+
+    try{
+      if($('detailLevel')) $('detailLevel').value = 'ultra';
+      if($('lineMode')) $('lineMode').value = 'green';
+      if($('conversionMode')) $('conversionMode').value = 'pulse';
+
+      if(currentAnalysis?.file){
+        const f = currentAnalysis.file;
+        safeLog('Heartbeat Engine: forcing Ultra detail + ECG/green-line focus.');
+        await loadMedia(f);
+      }else if(currentAnalysis){
+        safeLog('Heartbeat Engine: using the current analyzed trace.');
+      }else{
+        safeLog('Heartbeat Engine opened. Upload a heart-rate monitor image to generate the focused heartbeat sound.');
+      }
+    }catch(err){
+      console.error(err);
+      safeLog(`Heartbeat ultra-analysis warning: ${err.message}`);
+    }
+
+    renderHeartbeatV2(false);
+  }
+
+  function applyHeartbeatToSelectedPadV2(){
+    if(!heartbeatBuffer) renderHeartbeatV2(false);
+    if(!heartbeatBuffer){
+      safeLog('No heartbeat buffer to apply yet.');
+      return;
+    }
+    const i = selectedPad || 0;
+    pads[i].buffer = cloneBuffer(heartbeatBuffer);
+    pads[i].analysis = currentAnalysis;
+    pads[i].loop = true;
+    pads[i].name = `Heartbeat ${i+1}`;
+    pads[i].meta = {
+      mode:'heartbeat',
+      file: currentFileName || currentAnalysis?.fileName || 'heartbeat-trace',
+      created: new Date().toISOString(),
+      duration: heartbeatBuffer.duration,
+      loop:true,
+      loopStartNorm: heartbeatState.loopStart,
+      loopEndNorm: heartbeatState.loopEnd,
+      bpm: heartbeatState.bpm || estimateHeartbeatBpm(currentAnalysis, heartbeatState.loopStart, heartbeatState.loopEnd)
+    };
+    try { renderPads(); } catch(_){}
+    try { setupPads(); } catch(_){}
+    try { updatePadLoopUI(); } catch(_){}
+    safeLog(`Applied Heartbeat loop to pad ${i+1}. Pad looping is ON.`);
+  }
+
+  // Capture-level click handler so older patched listeners cannot swallow/break it.
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest && e.target.closest('#heartbeatBtn');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openHeartbeatEngineV2();
+  }, true);
+
+  // Keep a callable global for diagnostics and manual triggering.
+  window.syt2swndOpenHeartbeatEngine = openHeartbeatEngineV2;
+  window.syt2swndRenderHeartbeatEngine = renderHeartbeatV2;
+
+  // Make the button visually unmistakable.
+  const b = $('heartbeatBtn');
+  if(b){
+    b.textContent = '♥ Heartbeat';
+    b.title = 'Open the focused Heartbeat Engine window';
+    b.classList.add('heartbeatBtn');
+  }
+})();
+
 
 setupInitialVisuals();
 
