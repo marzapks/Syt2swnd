@@ -6,16 +6,61 @@
 <title>syt2swnd — designed by Mario Garcia</title>
 <style>
 :root{
-  --bg:#050709; --panel:rgba(12,18,22,.86); --panel2:rgba(17,28,34,.72); --line:rgba(127,255,222,.22);
-  --txt:#eafff8; --muted:#98bcb4; --accent:#8dfbe0; --gold:#ffd87b; --pink:#f78bff; --red:#ff6b6b;
-  --green:#78ff9e; --shadow:0 18px 60px rgba(0,0,0,.45); --radius:18px;
+  --bg:#000000; --panel:rgba(2,10,2,.9); --panel2:rgba(5,20,5,.82); --line:rgba(96,255,132,.26);
+  --txt:#d7ffd7; --muted:#74b774; --accent:#4dff73; --gold:#ffca45; --pink:#8cff9d; --red:#ff7e6d;
+  --green:#58ff58; --shadow:0 18px 60px rgba(0,0,0,.72); --radius:18px;
 }
-*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:radial-gradient(circle at top left,#11282b 0%,#06090b 36%,#020304 100%);color:var(--txt);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior:none}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(transparent 0 94%,rgba(141,251,224,.08) 95% 100%);background-size:100% 6px;mix-blend-mode:screen;opacity:.28;z-index:0}
-button,input,select,textarea{font:inherit} button{cursor:pointer;color:var(--txt);background:rgba(141,251,224,.08);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 0 0 rgba(0,0,0,0);transition:.12s transform,.12s background,.12s border-color} button:hover{background:rgba(141,251,224,.17);border-color:rgba(141,251,224,.45)} button:active{transform:translateY(1px) scale(.99)} button.primary{background:linear-gradient(135deg,rgba(141,251,224,.28),rgba(247,139,255,.16));border-color:rgba(141,251,224,.66)} button.danger{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.35)} button.small{font-size:12px;padding:7px 9px;border-radius:10px}.app{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:18px clamp(12px,2vw,24px) calc(140px + env(safe-area-inset-bottom))}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:14px}.orb{width:48px;height:48px;border-radius:16px;background:radial-gradient(circle at 32% 24%,#fff 0 6%,var(--accent) 7% 31%,#315aeb 38%,#061016 72%);box-shadow:0 0 28px rgba(141,251,224,.55), inset 0 0 20px rgba(255,255,255,.18)}h1{font-size:clamp(28px,5vw,58px);line-height:.94;margin:0;letter-spacing:.08em;text-transform:lowercase;text-shadow:0 0 18px rgba(141,251,224,.5),0 0 3px #fff}.subtitle{color:var(--muted);font-size:13px;margin-top:8px;letter-spacing:.09em;text-transform:uppercase}.transport{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.grid{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(420px,1.15fr) minmax(320px,.95fr);gap:14px}.panel{background:linear-gradient(180deg,var(--panel),rgba(5,8,10,.82));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;backdrop-filter:blur(18px)}.panel header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-bottom:1px solid rgba(141,251,224,.14);background:linear-gradient(90deg,rgba(141,251,224,.08),rgba(247,139,255,.04),transparent)}.panel h2{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0}.body{padding:14px}.collapsed .body{display:none}.drop{border:1px dashed rgba(141,251,224,.5);border-radius:18px;min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;background:radial-gradient(circle at 50% 20%,rgba(141,251,224,.11),rgba(0,0,0,.11) 60%);position:relative;overflow:hidden}.drop.drag{background:rgba(141,251,224,.18);border-color:#fff}.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}.drop strong{color:var(--gold);font-size:18px}.hint{color:var(--muted);font-size:12px;line-height:1.45}.note{border:1px solid rgba(255,216,123,.22);background:rgba(255,216,123,.06);padding:10px;border-radius:12px;color:#ffe9a7;font-size:12px;line-height:1.45}.row{display:grid;grid-template-columns:1fr 92px;gap:10px;align-items:center;margin:12px 0}.row label{font-size:12px;color:var(--muted);letter-spacing:.04em}.row output{font-size:12px;color:var(--accent);text-align:right}.row input[type=range]{width:100%;accent-color:var(--accent)}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}select,input[type="number"],input[type="text"]{width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(141,251,224,.25);color:var(--txt);border-radius:12px;padding:10px}.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.meter{background:rgba(255,255,255,.04);border:1px solid rgba(141,251,224,.12);border-radius:12px;padding:10px}.meter span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.meter b{display:block;margin-top:4px;color:var(--gold);font-size:18px}.canvasWrap{display:grid;gap:10px}.vizCanvas{width:100%;height:150px;background:#020404;border:1px solid rgba(141,251,224,.18);border-radius:14px}.previewCanvas{width:100%;height:250px;background:#020404;border:1px solid rgba(141,251,224,.18);border-radius:14px;object-fit:contain}.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.pad{aspect-ratio:1.25/1;display:flex;flex-direction:column;justify-content:space-between;text-align:left;padding:10px;border-radius:16px;position:relative;background:linear-gradient(180deg,rgba(141,251,224,.08),rgba(255,255,255,.025));overflow:hidden}.pad:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle,rgba(141,251,224,.16),transparent 57%);opacity:.2;transform:translate(var(--x,0),var(--y,0));pointer-events:none}.pad.selected{border-color:var(--gold);box-shadow:0 0 18px rgba(255,216,123,.22)}.pad.playing{background:linear-gradient(180deg,rgba(255,216,123,.22),rgba(141,251,224,.09));box-shadow:0 0 26px rgba(255,216,123,.28)}.pad strong{position:relative;font-size:13px}.pad em{position:relative;color:var(--muted);font-size:10px;font-style:normal}.pad small{position:relative;color:var(--accent);font-size:10px}.kbdPanel{position:fixed;left:0;right:0;bottom:0;z-index:8;background:linear-gradient(180deg,rgba(5,7,9,.75),rgba(5,7,9,.97));border-top:1px solid rgba(141,251,224,.2);backdrop-filter:blur(20px);box-shadow:0 -24px 70px rgba(0,0,0,.5);padding:10px 10px calc(10px + env(safe-area-inset-bottom))}.kbdTop{max-width:1480px;margin:0 auto 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.kbd{max-width:1480px;margin:0 auto;position:relative;height:116px;display:flex;gap:2px;touch-action:none}.key{position:relative;flex:1;border-radius:0 0 10px 10px;border:1px solid rgba(0,0,0,.45);background:linear-gradient(#f8fffc,#cfdad8);color:#061016;text-align:center;font-size:11px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;user-select:none}.key.active{background:linear-gradient(#dffff7,#83ffe2);box-shadow:0 0 20px rgba(141,251,224,.5) inset}.blackKey{position:absolute;top:0;width:4.5%;height:68%;z-index:2;background:linear-gradient(#1c2329,#030607);border:1px solid rgba(255,255,255,.08);border-radius:0 0 8px 8px;color:#dbfffa;font-size:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;user-select:none}.blackKey.active{background:linear-gradient(#354b56,#112d32);box-shadow:0 0 22px rgba(141,251,224,.7)}.kbdPanel.mini .kbd{display:none}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid rgba(141,251,224,.22);background:rgba(141,251,224,.06);font-size:11px;color:var(--muted)}.actions{display:flex;flex-wrap:wrap;gap:8px}.log{height:128px;overflow:auto;border:1px solid rgba(141,251,224,.14);border-radius:12px;background:rgba(0,0,0,.22);padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#bfffe9;white-space:pre-wrap}.tiny{font-size:11px;color:var(--muted)}.toggle{display:flex;gap:7px;align-items:center}.toggle input{accent-color:var(--accent)}.statusDot{width:9px;height:9px;border-radius:50%;background:#30454c;display:inline-block;box-shadow:0 0 0}.statusDot.on{background:var(--green);box-shadow:0 0 12px var(--green)}.footer{margin:18px 0 0;color:var(--muted);font-size:11px;text-align:center}.hidden{display:none!important}@media (max-width:1160px){.grid{grid-template-columns:1fr 1fr}.grid .wide{grid-column:1/-1}}@media (max-width:760px){.topbar{align-items:flex-start;flex-direction:column}.transport{justify-content:flex-start}.grid{grid-template-columns:1fr}.split,.triple{grid-template-columns:1fr}.app{padding-left:10px;padding-right:10px}.previewCanvas{height:210px}.kbd{height:100px}.key{font-size:10px}.blackKey{font-size:9px}.pads{gap:7px}.pad{padding:8px;border-radius:13px}}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:#000;color:var(--txt);font-family:"Courier New",ui-monospace,monospace;overscroll-behavior:none}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(transparent 0 95%,rgba(77,255,115,.08) 95% 100%),radial-gradient(circle at top,rgba(88,255,88,.05),transparent 40%);background-size:100% 5px,100% 100%;mix-blend-mode:screen;opacity:.42;z-index:0}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 120px rgba(77,255,115,.05), inset 0 0 18px rgba(255,202,69,.08);z-index:0}
+body:not(.launched) .app, body:not(.launched) .kbdPanel{display:none}
+button,input,select,textarea{font:inherit} button{cursor:pointer;color:var(--txt);background:rgba(77,255,115,.08);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 0 0 rgba(0,0,0,0),0 0 16px rgba(77,255,115,.07) inset;transition:.12s transform,.12s background,.12s border-color,.12s box-shadow;letter-spacing:.05em} button:hover{background:rgba(77,255,115,.16);border-color:rgba(77,255,115,.55);box-shadow:0 0 16px rgba(77,255,115,.12),0 0 18px rgba(77,255,115,.08) inset} button:active{transform:translateY(1px) scale(.99)} button.primary{background:linear-gradient(135deg,rgba(77,255,115,.2),rgba(255,202,69,.18));border-color:rgba(77,255,115,.7);box-shadow:0 0 18px rgba(77,255,115,.2), 0 0 14px rgba(255,202,69,.1) inset} button.danger{background:rgba(255,126,109,.1);border-color:rgba(255,126,109,.34)} button.small{font-size:12px;padding:7px 9px;border-radius:10px}.app{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:18px clamp(12px,2vw,24px) calc(140px + env(safe-area-inset-bottom))}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:14px}.orb{width:48px;height:48px;border-radius:12px;background:radial-gradient(circle at 50% 30%,#fff7b7 0 8%,#ffca45 10% 24%,#4dff73 25% 44%,#010601 63%);box-shadow:0 0 26px rgba(255,202,69,.3),0 0 32px rgba(77,255,115,.22), inset 0 0 14px rgba(255,255,255,.15)}h1{font-size:clamp(28px,5vw,58px);line-height:.94;margin:0;letter-spacing:.12em;text-transform:lowercase;text-shadow:0 0 14px rgba(77,255,115,.45),0 0 3px rgba(255,202,69,.5)}.subtitle{color:var(--muted);font-size:13px;margin-top:8px;letter-spacing:.14em;text-transform:uppercase}.transport{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.grid{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(420px,1.15fr) minmax(320px,.95fr);gap:14px}.panel{background:linear-gradient(180deg,var(--panel),rgba(0,0,0,.96));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow), inset 0 0 0 1px rgba(77,255,115,.05);overflow:hidden;backdrop-filter:blur(18px)}.panel header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-bottom:1px solid rgba(77,255,115,.16);background:linear-gradient(90deg,rgba(77,255,115,.08),rgba(255,202,69,.06),transparent)}.panel h2{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0}.body{padding:14px}.collapsed .body{display:none}.drop{border:1px dashed rgba(141,251,224,.5);border-radius:18px;min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;background:radial-gradient(circle at 50% 20%,rgba(141,251,224,.11),rgba(0,0,0,.11) 60%);position:relative;overflow:hidden}.drop.drag{background:rgba(141,251,224,.18);border-color:#fff}.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}.drop strong{color:var(--gold);font-size:18px}.hint{color:var(--muted);font-size:12px;line-height:1.45}.note{border:1px solid rgba(255,216,123,.22);background:rgba(255,216,123,.06);padding:10px;border-radius:12px;color:#ffe9a7;font-size:12px;line-height:1.45}.analysisReport{margin-top:12px;border:1px solid rgba(141,251,224,.18);background:linear-gradient(180deg,rgba(141,251,224,.07),rgba(0,0,0,.2));border-radius:16px;overflow:hidden}.analysisReportHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(141,251,224,.12)}.analysisReportHeader strong{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.12em}.reportGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}.reportItem{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(0,0,0,.2);padding:9px}.reportItem span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.reportItem b{display:block;margin-top:3px;color:var(--txt);font-size:14px}.reportText{padding:0 12px 12px;color:#d8fff6;font-size:12px;line-height:1.5}.reportText h3{font-size:12px;margin:10px 0 4px;color:var(--accent);letter-spacing:.09em;text-transform:uppercase}.reportText ul{margin:6px 0 8px 18px;padding:0}.reportText li{margin:4px 0}.reportText code{color:var(--gold);background:rgba(255,216,123,.08);padding:1px 5px;border-radius:6px}.reportText .muted{color:var(--muted)}.row{display:grid;grid-template-columns:1fr 92px;gap:10px;align-items:center;margin:12px 0}.row label{font-size:12px;color:var(--muted);letter-spacing:.04em}.row output{font-size:12px;color:var(--accent);text-align:right}.row input[type=range]{width:100%;accent-color:var(--accent)}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}select,input[type="number"],input[type="text"]{width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(141,251,224,.25);color:var(--txt);border-radius:12px;padding:10px}.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.meter{background:rgba(255,255,255,.04);border:1px solid rgba(141,251,224,.12);border-radius:12px;padding:10px}.meter span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.meter b{display:block;margin-top:4px;color:var(--gold);font-size:18px}.canvasWrap{display:grid;gap:10px}.vizCanvas{width:100%;height:150px;background:#020404;border:1px solid rgba(141,251,224,.18);border-radius:14px}.previewCanvas{width:100%;height:250px;background:#020404;border:1px solid rgba(141,251,224,.18);border-radius:14px;object-fit:contain}.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.pad{aspect-ratio:1.25/1;display:flex;flex-direction:column;justify-content:space-between;text-align:left;padding:10px;border-radius:16px;position:relative;background:linear-gradient(180deg,rgba(141,251,224,.08),rgba(255,255,255,.025));overflow:hidden}.pad:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle,rgba(141,251,224,.16),transparent 57%);opacity:.2;transform:translate(var(--x,0),var(--y,0));pointer-events:none}.pad.selected{border-color:var(--gold);box-shadow:0 0 18px rgba(255,216,123,.22)}.pad.playing{background:linear-gradient(180deg,rgba(255,216,123,.22),rgba(141,251,224,.09));box-shadow:0 0 26px rgba(255,216,123,.28)}.pad strong{position:relative;font-size:13px}.pad em{position:relative;color:var(--muted);font-size:10px;font-style:normal}.pad small{position:relative;color:var(--accent);font-size:10px}.kbdPanel{position:fixed;left:0;right:0;bottom:0;z-index:8;background:linear-gradient(180deg,rgba(5,7,9,.75),rgba(5,7,9,.97));border-top:1px solid rgba(141,251,224,.2);backdrop-filter:blur(20px);box-shadow:0 -24px 70px rgba(0,0,0,.5);padding:10px 10px calc(10px + env(safe-area-inset-bottom))}.kbdTop{max-width:1480px;margin:0 auto 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.kbd{max-width:1480px;margin:0 auto;position:relative;height:116px;display:flex;gap:2px;touch-action:none}.key{position:relative;flex:1;border-radius:0 0 10px 10px;border:1px solid rgba(0,0,0,.45);background:linear-gradient(#f8fffc,#cfdad8);color:#061016;text-align:center;font-size:11px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;user-select:none}.key.active{background:linear-gradient(#dffff7,#83ffe2);box-shadow:0 0 20px rgba(141,251,224,.5) inset}.blackKey{position:absolute;top:0;width:4.5%;height:68%;z-index:2;background:linear-gradient(#1c2329,#030607);border:1px solid rgba(255,255,255,.08);border-radius:0 0 8px 8px;color:#dbfffa;font-size:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;user-select:none}.blackKey.active{background:linear-gradient(#354b56,#112d32);box-shadow:0 0 22px rgba(141,251,224,.7)}.kbdPanel.mini .kbd{display:none}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid rgba(141,251,224,.22);background:rgba(141,251,224,.06);font-size:11px;color:var(--muted)}.actions{display:flex;flex-wrap:wrap;gap:8px}.log{height:128px;overflow:auto;border:1px solid rgba(141,251,224,.14);border-radius:12px;background:rgba(0,0,0,.22);padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#bfffe9;white-space:pre-wrap}.tiny{font-size:11px;color:var(--muted)}.toggle{display:flex;gap:7px;align-items:center}.toggle input{accent-color:var(--accent)}.statusDot{width:9px;height:9px;border-radius:50%;background:#30454c;display:inline-block;box-shadow:0 0 0}.statusDot.on{background:var(--green);box-shadow:0 0 12px var(--green)}.footer{margin:18px 0 0;color:var(--muted);font-size:11px;text-align:center}.hidden{display:none!important}@media (max-width:1160px){.grid{grid-template-columns:1fr 1fr}.grid .wide{grid-column:1/-1}}@media (max-width:760px){.topbar{align-items:flex-start;flex-direction:column}.transport{justify-content:flex-start}.grid{grid-template-columns:1fr}.split,.triple,.reportGrid{grid-template-columns:1fr}.app{padding-left:10px;padding-right:10px}.previewCanvas{height:210px}.kbd{height:100px}.key{font-size:10px}.blackKey{font-size:9px}.pads{gap:7px}.pad{padding:8px;border-radius:13px}}
+
+#homeScreen{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;background:#000;padding:28px;overflow:auto}
+body.launched #homeScreen{opacity:0;pointer-events:none;transition:opacity .45s ease}
+.homeShell{width:min(980px,100%);min-height:min(92vh,820px);display:grid;grid-template-rows:auto 1fr auto;gap:18px;align-items:center;justify-items:center;border:1px solid rgba(77,255,115,.24);border-radius:28px;background:linear-gradient(180deg,rgba(1,9,1,.92),rgba(0,0,0,.98));box-shadow:0 0 0 1px rgba(77,255,115,.06) inset,0 0 80px rgba(0,0,0,.7),0 0 50px rgba(77,255,115,.08);padding:26px 24px 18px;position:relative}
+.homeShell:before{content:"";position:absolute;inset:10px;border:1px solid rgba(77,255,115,.08);border-radius:22px;pointer-events:none}
+.homeBrand{text-align:center;padding-top:8px}
+.homeTitle{margin:0;font-size:clamp(34px,8vw,82px);letter-spacing:.16em;color:#93ffa8;text-shadow:0 0 12px rgba(77,255,115,.5),0 0 24px rgba(77,255,115,.16),0 0 6px rgba(255,202,69,.18)}
+.homeSub{margin-top:10px;color:#74b774;font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+.homeCenter{display:grid;gap:16px;justify-items:center;align-content:center;width:min(760px,100%)}
+.homePulseWrap{width:min(760px,100%);border:1px solid rgba(77,255,115,.24);border-radius:22px;background:radial-gradient(circle at center,rgba(255,202,69,.08),rgba(77,255,115,.04) 36%,rgba(0,0,0,.4) 72%), #020202;box-shadow:inset 0 0 35px rgba(77,255,115,.08),0 0 32px rgba(255,202,69,.07);padding:18px}
+#homePulseCanvas{display:block;width:100%;height:260px;border-radius:14px;background:linear-gradient(180deg,#000,#050805);image-rendering:pixelated}
+.homeText{max-width:700px;text-align:center;color:#98d898;font-size:13px;line-height:1.7;letter-spacing:.04em}
+.launchBtn{font-size:18px;padding:14px 28px;border-radius:999px;background:linear-gradient(180deg,rgba(77,255,115,.18),rgba(255,202,69,.14));border:1px solid rgba(255,202,69,.48);box-shadow:0 0 20px rgba(77,255,115,.18),0 0 18px rgba(255,202,69,.09) inset;text-transform:uppercase;letter-spacing:.18em}
+.launchBtn:hover{box-shadow:0 0 28px rgba(77,255,115,.22),0 0 18px rgba(255,202,69,.12) inset}
+.homeFooter{font-size:11px;color:#8eb88e;letter-spacing:.12em;text-transform:uppercase;opacity:.9;padding-bottom:4px}
+.log,.drop,.analysisReport,.meter,.reportItem,.pad,.previewCanvas,.vizCanvas,select,input[type="number"],input[type="text"],.kbdPanel,.badge,.key,.blackKey{box-shadow:0 0 0 1px rgba(77,255,115,.03) inset}
+.drop{background:radial-gradient(circle at 50% 20%,rgba(77,255,115,.12),rgba(255,202,69,.04) 22%,rgba(0,0,0,.14) 60%)}
+.note{border:1px solid rgba(255,202,69,.24);background:rgba(255,202,69,.06);color:#ffe4a5}.analysisReportHeader strong,.meter b,.reportText code{color:var(--gold)}
+.vizCanvas,.previewCanvas{background:#000;border-color:rgba(77,255,115,.22)}
+.kbdPanel{background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.98));border-top:1px solid rgba(77,255,115,.24)}
+.key{background:linear-gradient(#f3fff3,#bbe2bb);color:#001400}.key.active{background:linear-gradient(#f0ffe9,#7aff96);box-shadow:0 0 18px rgba(77,255,115,.46) inset}.blackKey{background:linear-gradient(#123312,#020202)}.blackKey.active{background:linear-gradient(#295d29,#071507);box-shadow:0 0 18px rgba(77,255,115,.6)}
+@media (max-width:760px){#homePulseCanvas{height:190px}.homeShell{padding:18px 14px 14px}.homeText{font-size:12px}.launchBtn{font-size:16px;padding:13px 24px}}
+
 </style>
 </head>
 <body>
+
+<div id="homeScreen" aria-label="syt2swnd home screen">
+  <div class="homeShell">
+    <div class="homeBrand">
+      <h1 class="homeTitle">syt2swnd</h1>
+      <div class="homeSub">neon media-to-sound design application</div>
+    </div>
+    <div class="homeCenter">
+      <div class="homePulseWrap">
+        <canvas id="homePulseCanvas" width="720" height="260" aria-label="golden heart rate monitor display"></canvas>
+      </div>
+      <div class="homeText">
+        Upload photos, videos, GIFs, waveform images, and reference visuals, then transform the media data into playable soundscapes, rhythmic pulses, contour-based audio, and assignable sampler material with detailed analysis.
+      </div>
+      <button id="launchBtn" class="launchBtn primary">Launch</button>
+    </div>
+    <div class="homeFooter">Designed by Mario Garcia</div>
+  </div>
+</div>
+
 <div class="app">
   <div class="topbar">
     <div class="brand">
@@ -52,6 +97,17 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;color:var(--txt
         </div>
         <canvas id="previewCanvas" class="previewCanvas" width="640" height="360"></canvas>
         <p class="note">For medical-looking screenshots, this is a sound-design tool and not a medical reader. It can trace visible pulse/wave shapes, then translate the geometry into audio.</p>
+        <div class="analysisReport" id="analysisReport">
+          <div class="analysisReportHeader"><strong>Analysis report</strong><button class="small" id="exportReportBtn" type="button">Export report</button></div>
+          <div class="reportGrid" id="analysisReportStats">
+            <div class="reportItem"><span>Status</span><b>Waiting for media</b></div>
+            <div class="reportItem"><span>Deterministic engine</span><b>No random matching</b></div>
+          </div>
+          <div class="reportText" id="analysisReportText">
+            <h3>How this will read your file</h3>
+            <p class="muted">After upload, syt2swnd reports the source dimensions, sample depth, tonal structure, contour trace, edge texture, entropy, contrast, motion, pulse candidates, and the exact sound-design mappings used to turn the visible data into audio.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -247,9 +303,13 @@ async function loadMedia(file){
   $('mediaKind').textContent = file.type.startsWith('video')?'video':(file.type.includes('gif')?'gif/image':'image');
   try{
     const detail=detailMap[$('detailLevel').value] || detailMap.studio;
+    const byteStats = await analyzeFileBytes(file);
     const frames = file.type.startsWith('video') ? await extractVideoFrames(file,detail) : (file.type.includes('gif') ? await extractAnimatedImageFrames(file,detail) : await extractImageFrame(file,detail));
     currentAnalysis = analyzeFrames(frames, file, $('lineMode').value);
-    drawPreview(currentAnalysis); drawAnalysisCanvases(currentAnalysis);
+    currentAnalysis.byteStats = byteStats;
+    currentAnalysis.fileSize = file.size || 0;
+    currentAnalysis.lastModified = file.lastModified || 0;
+    drawPreview(currentAnalysis); drawAnalysisCanvases(currentAnalysis); updateAnalysisReport(currentAnalysis);
     $('lineMatch').textContent = `${Math.round(currentAnalysis.lineConfidence*100)}%`;
     $('pulseEst').textContent = currentAnalysis.estimatedBpm ? `${currentAnalysis.estimatedBpm} BPM` : '—';
     log(`Analysis complete: ${currentAnalysis.width}×${currentAnalysis.height}, ${currentAnalysis.frameCount} frame(s), entropy ${currentAnalysis.entropy.toFixed(2)}, edge ${Math.round(currentAnalysis.edgeEnergy*100)}%.`);
@@ -283,6 +343,20 @@ async function extractAnimatedImageFrames(file,detail){
   URL.revokeObjectURL(url); return frames;
 }
 function sleep(ms){return new Promise(res=>setTimeout(res,ms));}
+async function analyzeFileBytes(file){
+  const maxBytes=Math.min(file.size||0, 1024*1024*2);
+  if(!maxBytes) return {sampledBytes:0, entropy:0, mean:0, spread:0, signature:'unknown'};
+  const bytes=new Uint8Array(await file.slice(0,maxBytes).arrayBuffer());
+  const hist=new Uint32Array(256); let sum=0; for(const b of bytes){hist[b]++; sum+=b;}
+  const mean=sum/bytes.length; let variance=0, entropy=0; for(let i=0;i<hist.length;i++){const c=hist[i]; if(c){const p=c/bytes.length; entropy-=p*Math.log2(p); variance+=c*(i-mean)*(i-mean);}}
+  const spread=Math.sqrt(variance/bytes.length)/255;
+  let signature='binary/media';
+  if(bytes[0]===0xff&&bytes[1]===0xd8) signature='JPEG image';
+  else if(bytes[0]===0x89&&bytes[1]===0x50&&bytes[2]===0x4e&&bytes[3]===0x47) signature='PNG image';
+  else if(bytes[0]===0x47&&bytes[1]===0x49&&bytes[2]===0x46) signature='GIF image';
+  else if(bytes[4]===0x66&&bytes[5]===0x74&&bytes[6]===0x79&&bytes[7]===0x70) signature='MP4/MOV-family video';
+  return {sampledBytes:bytes.length, entropy, mean:mean/255, spread, signature};
+}
 
 async function extractVideoFrames(file,detail){
   const url=URL.createObjectURL(file); const video=document.createElement('video'); video.muted=true; video.playsInline=true; video.preload='metadata'; video.src=url;
@@ -347,7 +421,19 @@ function analyzeFrames(frames,file,lineMode){
   const hue = rgbToHue(avgR,avgG,avgB);
   const peaks = detectPeaks(traceNorm, cols, contrast);
   const estimatedBpm = peaks.length>1 ? Math.round((peaks.length-1)/Math.max(.5,Number($('duration').value))*60) : 0;
-  return {file,fileName:file.name,width:w,height:h,frameCount:frames.length,firstFrame:frames[0].imageData,colLum,colR,colG,colB,colSat,colEdge,colMotion,trace,traceNorm,avgR,avgG,avgB,avgLum,contrast,entropy,hue,edgeEnergy:totalEdge/pixDenom,motionEnergy:totalMotion/pixDenom,saturation:totalSat/pixDenom,lineConfidence:clamp(scoreAvg/2.2,0,1),peaks,estimatedBpm};
+  const contourStats=describeArray(traceNorm);
+  const lumStats=describeArray(colLum);
+  const edgeStats=describeArray(colEdge);
+  const motionStats=describeArray(colMotion);
+  const satStats=describeArray(colSat);
+  const sourceWidth=frames[0].sourceWidth||w, sourceHeight=frames[0].sourceHeight||h;
+  const samplePixels=frames.length*n;
+  const brightnessBands=brightnessBandSummary(hist, pixDenom);
+  const edgeEnergy=totalEdge/pixDenom, motionEnergy=totalMotion/pixDenom, saturation=totalSat/pixDenom;
+  const contourActivity=meanAbsDelta(traceNorm);
+  const dataComplexity=clamp((entropy/6)*.34 + contrast*1.25*.22 + edgeEnergy*2.4*.22 + contourActivity*1.8*.14 + saturation*.08,0,1);
+  const dominantChannel = avgR>=avgG && avgR>=avgB ? 'red' : (avgG>=avgR && avgG>=avgB ? 'green' : 'blue');
+  return {file,fileName:file.name,fileType:file.type||'unknown',width:w,height:h,sourceWidth,sourceHeight,aspectRatio:sourceWidth/Math.max(1,sourceHeight),samplePixels,frameCount:frames.length,firstFrame:frames[0].imageData,colLum,colR,colG,colB,colSat,colEdge,colMotion,trace,traceNorm,avgR,avgG,avgB,avgLum,contrast,entropy,hue,edgeEnergy,motionEnergy,saturation,lineConfidence:clamp(scoreAvg/2.2,0,1),peaks,estimatedBpm,contourStats,lumStats,edgeStats,motionStats,satStats,brightnessBands,contourActivity,dataComplexity,dominantChannel};
 }
 function smoothInPlace(arr,radius){if(radius<=0)return; const copy=arr.slice(); for(let i=0;i<arr.length;i++){let s=0,c=0; for(let k=-radius;k<=radius;k++){const j=clamp(i+k,0,arr.length-1);s+=copy[j];c++;} arr[i]=s/c;}}
 function rgbToHue(r,g,b){const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;if(!d)return 0;let h;if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;return ((h*60+360)%360)/360;}
@@ -362,6 +448,11 @@ function detectPeaks(arr,cols,contrast){
   }
   return peaks;
 }
+function describeArray(arr){
+  let min=Infinity,max=-Infinity,sum=0; for(const v of arr){if(v<min)min=v;if(v>max)max=v;sum+=v;} const mean=sum/Math.max(1,arr.length); let variance=0; for(const v of arr) variance+=(v-mean)*(v-mean); const stdev=Math.sqrt(variance/Math.max(1,arr.length)); return {min,max,mean,stdev,range:max-min};
+}
+function meanAbsDelta(arr){let s=0; for(let i=1;i<arr.length;i++) s+=Math.abs(arr[i]-arr[i-1]); return s/Math.max(1,arr.length-1);}
+function brightnessBandSummary(hist,total){let dark=0,mid=0,bright=0; for(let i=0;i<hist.length;i++){if(i<20)dark+=hist[i]; else if(i<44)mid+=hist[i]; else bright+=hist[i];} return {dark:dark/Math.max(1,total),mid:mid/Math.max(1,total),bright:bright/Math.max(1,total)};}
 function sampleArr(arr,pos){const x=clamp(pos*(arr.length-1),0,arr.length-1); const i=Math.floor(x), f=x-i; return lerp(arr[i],arr[Math.min(arr.length-1,i+1)],f);}
 
 function drawPreview(a){
@@ -386,6 +477,70 @@ function drawAnalysisCanvases(a){
   }
   dctx.fillStyle='rgba(255,255,255,.62)'; dctx.font='12px ui-monospace,monospace'; dctx.fillText('top: sampled color · teal: edge texture · magenta: motion',12,dc.height-12);
 }
+
+function pct(v){return `${Math.round((v||0)*100)}%`;}
+function fixed(v,d=2){return Number.isFinite(v)?v.toFixed(d):'0';}
+function formatBytes(n){if(!n)return '0 B'; const u=['B','KB','MB','GB']; let i=0,v=n; while(v>=1024&&i<u.length-1){v/=1024;i++;} return `${v.toFixed(i?1:0)} ${u[i]}`;}
+function freqRangeFromAnalysis(a){
+  const base = 42 + a.hue*220 + a.avgLum*160 + a.saturation*80;
+  let min=Infinity,max=0;
+  for(let i=0;i<a.traceNorm.length;i+=Math.max(1,Math.floor(a.traceNorm.length/64))){
+    const p=i/Math.max(1,a.traceNorm.length-1), lum=sampleArr(a.colLum,p), edge=sampleArr(a.colEdge,p), mot=sampleArr(a.colMotion,p), contour=sampleArr(a.traceNorm,p);
+    const shapePitch=Math.pow(2,((contour-.5)*24*(getParam('contourAccuracy')/100)+(lum-.5)*12*(getParam('colorHarmony')/100))/12);
+    const f=clamp(base*shapePitch + edge*180*(getParam('edgeTexture')/100) + mot*90*(getParam('motionInfluence')/100),18,9000);
+    min=Math.min(min,f); max=Math.max(max,f);
+  }
+  return `${Math.round(min)}–${Math.round(max)} Hz`;
+}
+function makeAnalysisReport(a){
+  if(!a) return {stats:'', html:'', text:'No analysis yet.'};
+  const mode=$('conversionMode').value, detail=$('detailLevel').value, lineMode=$('lineMode').value;
+  const sourceKind=a.fileType.startsWith('video')?'video':(a.fileType.includes('gif')?'GIF / animated image':'photo / image');
+  const freqRange=freqRangeFromAnalysis(a);
+  const stats = [
+    ['Source', `${sourceKind}`], ['File size', `${formatBytes(a.fileSize||0)}`], ['File signature', `${a.byteStats?.signature||'media'}`], ['Byte entropy', `${fixed(a.byteStats?.entropy||0,2)} / 8`], ['Original size', `${a.sourceWidth}×${a.sourceHeight}`], ['Analysis grid', `${a.width}×${a.height}`], ['Frames read', `${a.frameCount}`], ['Pixels sampled', `${a.samplePixels.toLocaleString()}`], ['Detail mode', detail], ['Complexity', pct(a.dataComplexity)], ['Pixel entropy', fixed(a.entropy,2)], ['Contrast', pct(a.contrast)], ['Edge texture', pct(a.edgeEnergy)], ['Motion energy', pct(a.motionEnergy)], ['Contour activity', pct(a.contourActivity)], ['Line confidence', pct(a.lineConfidence)], ['Pulse candidates', `${a.peaks.length}`], ['Pulse estimate', a.estimatedBpm?`${a.estimatedBpm} BPM`:'not enough peaks'], ['Pitch map range', freqRange]
+  ];
+  const colorBias = `${a.dominantChannel} dominant · hue ${Math.round(a.hue*360)}° · saturation ${pct(a.saturation)}`;
+  const tonalBalance = `dark ${pct(a.brightnessBands.dark)}, mid ${pct(a.brightnessBands.mid)}, bright ${pct(a.brightnessBands.bright)}`;
+  const contourSummary = `mean ${pct(a.contourStats.mean)}, range ${pct(a.contourStats.range)}, stability ±${pct(a.contourStats.stdev)}`;
+  const html = `
+    <h3>What was analyzed</h3>
+    <ul>
+      <li><b>File container + bytes:</b> file size, MIME type, signature guess, sampled-byte entropy, and binary spread are read first so the report can distinguish simple files from dense/compressed media.</li>
+      <li><b>Geometry + scale:</b> source size, aspect ratio, resized analysis grid, total sampled pixels, and frame count. This keeps the conversion tied to the actual uploaded media structure.</li>
+      <li><b>Luminance structure:</b> perceived brightness is measured per pixel and per vertical slice. Brightness becomes amplitude movement, contour shading, and part of the pitch curve.</li>
+      <li><b>Contrast + entropy:</b> the app measures how spread out the brightness data is and how information-dense the image is. Higher entropy creates a more complex tone; lower entropy creates a smoother, simpler sound.</li>
+      <li><b>Edge texture:</b> horizontal and vertical pixel differences are measured to find hard outlines, waveform edges, text, monitor traces, and detailed image grain. Edges feed transient texture and upper harmonic motion.</li>
+      <li><b>Visible contour trace:</b> the selected line mode finds the strongest dark, bright, green, or high-edge path in every image column. This becomes the true waveform/heart-rate/shape contour used in contour and pulse modes.</li>
+      <li><b>Peak and pulse candidates:</b> high points in the traced contour are detected and spaced apart to estimate repeated pulse-like events. This is why heart monitor screenshots can become click/pulse patterns instead of generic ambience.</li>
+      <li><b>Motion layer:</b> for videos and sampled GIF frames, frame-to-frame pixel change becomes movement energy. Still images naturally report near-zero motion.</li>
+      <li><b>Color/chroma:</b> color is included, but only as one layer: hue, saturation, and RGB balance influence harmony, partials, stereo movement, and tone color rather than replacing the structural analysis.</li>
+    </ul>
+    <h3>Current file reading</h3>
+    <p><b>Tonal balance:</b> ${tonalBalance}. <b>Contour:</b> ${contourSummary}. <b>Chroma:</b> ${colorBias}. <b>Detected line mode:</b> <code>${lineMode}</code>. <b>Conversion engine:</b> <code>${mode}</code>. <b>Byte signature:</b> ${a.byteStats?.signature||'media'} with ${fixed(a.byteStats?.entropy||0,2)}/8 byte entropy.</p>
+    <h3>How this becomes sound</h3>
+    <ul>
+      <li><b>Pitch:</b> contour height, luminance, edge density, and the base pitch control produce a deterministic pitch path around ${freqRange}.</li>
+      <li><b>Amplitude:</b> brightness, contour slope, attack/release, and limiter settings shape loudness without clipping.</li>
+      <li><b>Texture:</b> edge energy, entropy, and the grain/bit controls create the fine detail of the soundscape.</li>
+      <li><b>Pulse/waveform rebuild:</b> traced line peaks trigger pulse events; the traced path itself can be rendered as a waveform-like audio contour.</li>
+      <li><b>Stereo space:</b> red/green/blue balance, motion, and spread settings create left-right movement from the media data.</li>
+    </ul>
+    <p class="muted">This is deterministic: the same media, settings, detail level, and conversion mode recreate the same analysis and sound mapping. It does not choose unrelated random sounds.</p>`;
+  const text = `syt2swnd analysis report\nDesigned by Mario Garcia\nCreated: ${new Date().toLocaleString()}\n\nSource: ${a.fileName}\nKind: ${sourceKind}\nFile size: ${formatBytes(a.fileSize||0)}\nFile signature: ${a.byteStats?.signature||'media'}\nByte entropy: ${fixed(a.byteStats?.entropy||0,2)} / 8\nOriginal size: ${a.sourceWidth}x${a.sourceHeight}\nAnalysis grid: ${a.width}x${a.height}\nFrames read: ${a.frameCount}\nPixels sampled: ${a.samplePixels}\nDetail mode: ${detail}\nLine mode: ${lineMode}\nConversion mode: ${mode}\n\nMetrics:\n${stats.map(([k,v])=>`- ${k}: ${v}`).join('\n')}\n\nWhat was analyzed:\n- File container and byte layer: file size, MIME type, signature guess, sampled-byte entropy, and binary spread.
+- Geometry, scale, source dimensions, aspect ratio, analysis grid, and frame count.\n- Luminance structure, brightness bands, contrast, entropy, and information density.\n- Edge texture from pixel differences to find hard outlines, waveform lines, text, trace edges, and grain.\n- Visible contour trace across image columns using dark, bright, green ECG, edge, or auto detection.\n- Peak and pulse candidates from the traced contour for pulse/heart-rate style recreation.\n- Motion energy for video/GIF frame-to-frame changes.\n- Color and chroma as a harmony/timbre layer only, not the only source of sound.\n\nSound mapping:\n- Pitch path uses contour height, luminance, edge density, base pitch, and color harmony.\n- Amplitude uses brightness, contour slope, attack/release, and limiter settings.\n- Texture uses edge energy, entropy, grain, bit texture, and high-frequency partials.\n- Pulse mode uses traced peaks for pulse events.\n- Stereo space uses RGB balance, motion, and spread.\n\nDeterministic note: same media + same settings = same analysis and sound mapping. No unrelated random sound matching is used.\n`;
+  return {stats, html, text};
+}
+function updateAnalysisReport(a){
+  const statBox=$('analysisReportStats'), textBox=$('analysisReportText'); if(!statBox||!textBox) return;
+  const report=makeAnalysisReport(a); statBox.innerHTML = report.stats.map(([k,v])=>`<div class="reportItem"><span>${escapeHtml(k)}</span><b>${escapeHtml(v)}</b></div>`).join(''); textBox.innerHTML = report.html; statBox.dataset.reportText=report.text;
+}
+$('exportReportBtn')?.addEventListener('click',()=>{
+  if(!currentAnalysis){log('No report to export yet.');return;}
+  const report=makeAnalysisReport(currentAnalysis).text;
+  downloadBlob(new Blob([report],{type:'text/plain'}),`syt2swnd_analysis_report_${currentFileName}_${nowName()}.txt`);
+  log('Exported analysis report.');
+});
 
 function renderSound(){
   if(!currentAnalysis){log('Upload media first.'); return;}
@@ -513,7 +668,7 @@ $('exportManifestBtn').addEventListener('click',()=>{
 async function bufferToB64(buffer){const wav=audioBufferToWav(buffer); let binary=''; const bytes=new Uint8Array(wav); const chunk=0x8000; for(let i=0;i<bytes.length;i+=chunk){binary += String.fromCharCode(...bytes.subarray(i,i+chunk));} return btoa(binary);}
 function b64ToArrayBuffer(b64){const bin=atob(b64); const bytes=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i); return bytes.buffer;}
 async function b64ToAudioBuffer(b64){ensureAudio(); return await audioCtx.decodeAudioData(b64ToArrayBuffer(b64));}
-function slimAnalysis(a){if(!a)return null; const pack = arr => Array.from(arr, v=>Math.round(v*10000)/10000); return {fileName:a.fileName,width:a.width,height:a.height,frameCount:a.frameCount,avgR:a.avgR,avgG:a.avgG,avgB:a.avgB,avgLum:a.avgLum,contrast:a.contrast,entropy:a.entropy,hue:a.hue,edgeEnergy:a.edgeEnergy,motionEnergy:a.motionEnergy,saturation:a.saturation,lineConfidence:a.lineConfidence,estimatedBpm:a.estimatedBpm,traceNorm:pack(a.traceNorm),colLum:pack(a.colLum),colR:pack(a.colR),colG:pack(a.colG),colB:pack(a.colB),colSat:pack(a.colSat),colEdge:pack(a.colEdge),colMotion:pack(a.colMotion)};}
+function slimAnalysis(a){if(!a)return null; const pack = arr => Array.from(arr, v=>Math.round(v*10000)/10000); return {fileName:a.fileName,fileType:a.fileType,width:a.width,height:a.height,sourceWidth:a.sourceWidth,sourceHeight:a.sourceHeight,frameCount:a.frameCount,fileSize:a.fileSize,lastModified:a.lastModified,byteStats:a.byteStats,avgR:a.avgR,avgG:a.avgG,avgB:a.avgB,avgLum:a.avgLum,contrast:a.contrast,entropy:a.entropy,hue:a.hue,edgeEnergy:a.edgeEnergy,motionEnergy:a.motionEnergy,saturation:a.saturation,lineConfidence:a.lineConfidence,estimatedBpm:a.estimatedBpm,dataComplexity:a.dataComplexity,dominantChannel:a.dominantChannel,brightnessBands:a.brightnessBands,contourStats:a.contourStats,lumStats:a.lumStats,edgeStats:a.edgeStats,motionStats:a.motionStats,satStats:a.satStats,traceNorm:pack(a.traceNorm),colLum:pack(a.colLum),colR:pack(a.colR),colG:pack(a.colG),colB:pack(a.colB),colSat:pack(a.colSat),colEdge:pack(a.colEdge),colMotion:pack(a.colMotion)};}
 $('exportProjectBtn').addEventListener('click',async()=>{
   const project={type:'syt2swnd-project',version:1,created:new Date().toISOString(),designedBy:'Mario Garcia',currentFileName,settings:Object.fromEntries(controls.map(id=>[id,$(id).value])),conversionMode:$('conversionMode').value,duration:$('duration').value,analysis:slimAnalysis(currentAnalysis),currentWav:currentBuffer?await bufferToB64(currentBuffer):null,pads:[]};
   for(let i=0;i<pads.length;i++){const p=pads[i]; project.pads.push({name:p.name,meta:p.meta,wav:p.buffer?await bufferToB64(p.buffer):null});}
@@ -554,6 +709,75 @@ function setupInitialVisuals(){
   const wc=$('waveCanvas'), wctx=wc.getContext('2d'); wctx.fillStyle='#020404';wctx.fillRect(0,0,wc.width,wc.height);wctx.strokeStyle='rgba(141,251,224,.5)';wctx.beginPath();for(let x=0;x<wc.width;x++){let y=wc.height/2+Math.sin(x*.045)*22*Math.sin(x*.006); if(x===0)wctx.moveTo(x,y);else wctx.lineTo(x,y);}wctx.stroke();
   const dc=$('dataCanvas'), dctx=dc.getContext('2d');dctx.fillStyle='#020404';dctx.fillRect(0,0,dc.width,dc.height);for(let x=0;x<dc.width;x++){dctx.fillStyle=`hsla(${170+x/dc.width*140},80%,58%,.35)`;dctx.fillRect(x,0,1,dc.height);} dctx.fillStyle='rgba(0,0,0,.68)';dctx.fillRect(0,0,dc.width,dc.height);dctx.fillStyle='rgba(255,255,255,.62)';dctx.font='12px ui-monospace,monospace';dctx.fillText('media data map will appear here',12,dc.height-14);
 }
+
+function fitCanvasToDisplay(canvas, cssHeight){
+  const rect = canvas.getBoundingClientRect();
+  const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+  const w = Math.max(320, Math.round(rect.width * ratio));
+  const h = Math.max(140, Math.round((cssHeight || rect.height || 200) * ratio));
+  if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+}
+function drawHomePulse(t){
+  const c = $('homePulseCanvas'); if(!c) return;
+  fitCanvasToDisplay(c, c.clientHeight || 260);
+  const ctx = c.getContext('2d'), w = c.width, h = c.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h);
+  ctx.save();
+  ctx.globalAlpha=.14; ctx.strokeStyle='rgba(77,255,115,.55)'; ctx.lineWidth=Math.max(1,Math.round(w/700));
+  const cols=12, rows=7;
+  for(let i=0;i<=cols;i++){const x=i*w/cols; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();}
+  for(let j=0;j<=rows;j++){const y=j*h/rows; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();}
+  ctx.restore();
+  const sweep=((t||0)*0.00024)%1;
+  const glowX = sweep*w;
+  const g = ctx.createLinearGradient(glowX-80,0,glowX+80,0); g.addColorStop(0,'rgba(255,202,69,0)'); g.addColorStop(.5,'rgba(255,202,69,.22)'); g.addColorStop(1,'rgba(255,202,69,0)');
+  ctx.fillStyle = g; ctx.fillRect(glowX-90,0,180,h);
+  ctx.beginPath();
+  const base=h*0.58;
+  const segs=58;
+  for(let i=0;i<=segs;i++){
+    const p=i/segs, x=p*w;
+    let y=base + Math.sin((p*8)+(t||0)*0.0012)*h*0.01;
+    if(p>.23 && p<.37){
+      const q=(p-.23)/.14;
+      if(q<.18) y=base-(q/.18)*h*.06;
+      else if(q<.3) y=base+((q-.18)/.12)*h*.04;
+      else if(q<.44) y=base-((q-.3)/.14)*h*.38;
+      else if(q<.58) y=base+((q-.44)/.14)*h*.12;
+      else if(q<.78) y=base-((.78-q)/.20)*h*.08;
+      else y=base+(q-.78)/.22*h*.02;
+    }
+    if(p>.58 && p<.72){
+      const q=(p-.58)/.14;
+      if(q<.18) y=base-(q/.18)*h*.04;
+      else if(q<.28) y=base+((q-.18)/.10)*h*.03;
+      else if(q<.42) y=base-((q-.28)/.14)*h*.30;
+      else if(q<.57) y=base+((q-.42)/.15)*h*.10;
+      else if(q<.8) y=base-((.8-q)/.23)*h*.06;
+      else y=base+(q-.8)/.2*h*.02;
+    }
+    y = Math.round(y/4)*4; xq = Math.round(x/4)*4;
+    if(i===0) ctx.moveTo(xq,y); else ctx.lineTo(xq,y);
+  }
+  ctx.strokeStyle='rgba(255,202,69,.98)';
+  ctx.lineWidth=Math.max(3,Math.round(w/220));
+  ctx.shadowBlur=Math.max(14,Math.round(w/24));
+  ctx.shadowColor='rgba(255,202,69,.65)';
+  ctx.stroke();
+  ctx.shadowBlur=0;
+  ctx.fillStyle='rgba(77,255,115,.86)'; ctx.font=`${Math.max(12,Math.round(w/48))}px Courier New`;
+  ctx.fillText('HEART-RATE STYLE MEDIA SYNTHESIS', 16, 28);
+  ctx.fillStyle='rgba(255,202,69,.92)'; ctx.fillText('READY', w-100, 28);
+}
+let homeAnim=0;
+function homeLoop(ts){ drawHomePulse(ts||performance.now()); homeAnim=requestAnimationFrame(homeLoop); }
+function launchApp(){ document.body.classList.add('launched'); setTimeout(()=>{$('renderBtn')?.focus();},280); }
+$('launchBtn')?.addEventListener('click', launchApp);
+document.addEventListener('keydown',e=>{ if(!document.body.classList.contains('launched') && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); launchApp(); }});
+window.addEventListener('resize', ()=>drawHomePulse(performance.now()));
+homeLoop();
+
 setupInitialVisuals();
 
 })();
