@@ -778,6 +778,93 @@ document.addEventListener('keydown',e=>{ if(!document.body.classList.contains('l
 window.addEventListener('resize', ()=>drawHomePulse(performance.now()));
 homeLoop();
 
+
+/* === restored home launch + golden pulse animation === */
+function fitHomeCanvas(canvas){
+  const rect = canvas.getBoundingClientRect();
+  const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+  const w = Math.max(320, Math.round(rect.width * ratio));
+  const h = Math.max(140, Math.round((rect.height || 260) * ratio));
+  if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+}
+function drawHomePulseFrame(t){
+  const c = document.getElementById('homePulseCanvas');
+  if(!c) return;
+  fitHomeCanvas(c);
+  const ctx = c.getContext('2d'), w = c.width, h = c.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,w,h);
+
+  ctx.save();
+  ctx.globalAlpha = .15;
+  ctx.strokeStyle = 'rgba(77,255,115,.58)';
+  ctx.lineWidth = Math.max(1, Math.round(w/760));
+  for(let i=0;i<=12;i++){ const x=i*w/12; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for(let j=0;j<=7;j++){ const y=j*h/7; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  ctx.restore();
+
+  const sweep = ((t||0)*0.00024)%1, glowX = sweep*w;
+  const g = ctx.createLinearGradient(glowX-90,0,glowX+90,0);
+  g.addColorStop(0,'rgba(255,202,69,0)');
+  g.addColorStop(.5,'rgba(255,202,69,.24)');
+  g.addColorStop(1,'rgba(255,202,69,0)');
+  ctx.fillStyle = g; ctx.fillRect(glowX-100,0,200,h);
+
+  ctx.beginPath();
+  const base = h*.58, segs=72;
+  for(let i=0;i<=segs;i++){
+    const p=i/segs, x=Math.round((p*w)/4)*4;
+    let y = base + Math.sin((p*8)+(t||0)*.0012)*h*.01;
+    const beats = [.28,.64];
+    for(const center of beats){
+      const d = Math.abs(p-center);
+      if(d < .065){
+        const q = (p-(center-.065))/.13;
+        if(q < .18) y = base - (q/.18)*h*.05;
+        else if(q < .30) y = base + ((q-.18)/.12)*h*.035;
+        else if(q < .44) y = base - ((q-.30)/.14)*h*.38;
+        else if(q < .58) y = base + ((q-.44)/.14)*h*.13;
+        else if(q < .78) y = base - ((.78-q)/.20)*h*.075;
+        else y = base + (q-.78)/.22*h*.02;
+      }
+    }
+    y = Math.round(y/4)*4;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(255,202,69,.98)';
+  ctx.lineWidth=Math.max(3,Math.round(w/220));
+  ctx.shadowBlur=Math.max(14,Math.round(w/26));
+  ctx.shadowColor='rgba(255,202,69,.68)';
+  ctx.stroke();
+  ctx.shadowBlur=0;
+
+  ctx.fillStyle='rgba(77,255,115,.9)';
+  ctx.font=`${Math.max(12,Math.round(w/50))}px Courier New`;
+  ctx.fillText('HEART-RATE STYLE MEDIA SYNTHESIS', 16, 30);
+  ctx.fillStyle='rgba(255,202,69,.95)';
+  ctx.fillText('READY', w-105, 30);
+}
+function restoredHomeLoop(ts){
+  drawHomePulseFrame(ts || performance.now());
+  requestAnimationFrame(restoredHomeLoop);
+}
+function restoredLaunchApp(){
+  document.body.classList.add('launched');
+}
+document.getElementById('launchBtn')?.addEventListener('click', restoredLaunchApp);
+document.addEventListener('keydown', e=>{
+  if(!document.body.classList.contains('launched') && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault(); restoredLaunchApp();
+  }
+});
+window.addEventListener('resize', ()=>drawHomePulseFrame(performance.now()));
+requestAnimationFrame(restoredHomeLoop);
+setTimeout(()=>{
+  if(!document.getElementById('homeScreen') && !document.body.classList.contains('launched')){
+    document.body.classList.add('launched');
+  }
+}, 800);
+
 setupInitialVisuals();
 
 })();
